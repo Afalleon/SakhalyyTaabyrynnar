@@ -1,0 +1,34 @@
+{
+    "name": "GameInput",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "1b466031-d6e1-46b3-b4cf-97eb31c06914",
+            "actions": [
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "1c3d6269-6a4c-462c-a671-e771ce619154",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "23701c13-5ac3-41cf-94f2-5571060764a4",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
