@@ -1,16 +1,16 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance; // экземпляр класса
+    public static AudioManager instance; // СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
 
-    // ссылки на объекты в инспекторе
-    [SerializeField] private AudioSource source; // источник звука
-    [SerializeField] private AudioClip clickSound; // звук клика
-    [SerializeField] private AudioClip trueAnswerSound; // звук правильного ответа
-    [SerializeField] private AudioClip falseAnswerSound; // звук неправильного ответа
+    // СЃСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    [SerializeField] private AudioSource source; // РёСЃС‚РѕС‡РЅРёРє Р·РІСѓРєР°
+    [SerializeField] private AudioClip clickSound; // Р·РІСѓРє РєР»РёРєР°
+    [SerializeField] private AudioClip trueAnswerSound; // Р·РІСѓРє РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
+    [SerializeField] private AudioClip falseAnswerSound; // Р·РІСѓРє РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
 
-    // реализация паттерна Singleton: гарантируем, что в игре только один менеджер звука
+    // СЂРµР°Р»РёР·Р°С†РёСЏ РїР°С‚С‚РµСЂРЅР° Singleton: РіР°СЂР°РЅС‚РёСЂСѓРµРј, С‡С‚Рѕ РІ РёРіСЂРµ С‚РѕР»СЊРєРѕ РѕРґРёРЅ РјРµРЅРµРґР¶РµСЂ Р·РІСѓРєР°
     private void Awake()
     {
         if (instance == null)
@@ -21,16 +21,16 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // метод воспроизведения звука клика
+    // РјРµС‚РѕРґ РІРѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёСЏ Р·РІСѓРєР° РєР»РёРєР°
     public void PlayClick()
     {
-        if (PlayerPrefs.GetInt("SoundEnabled", 1) == 1) // проверяем, включен ли звук в настройках
+        if (PlayerPrefs.GetInt("SoundEnabled", 1) == 1) // РїСЂРѕРІРµСЂСЏРµРј, РІРєР»СЋС‡РµРЅ Р»Рё Р·РІСѓРє РІ РЅР°СЃС‚СЂРѕР№РєР°С…
         {
-            source.PlayOneShot(clickSound); // проигрываем, если включен
+            source.PlayOneShot(clickSound); // РїСЂРѕРёРіСЂС‹РІР°РµРј, РµСЃР»Рё РІРєР»СЋС‡РµРЅ
         }
     }
 
-    // метод для звука правильного ответа
+    // РјРµС‚РѕРґ РґР»СЏ Р·РІСѓРєР° РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
     public void PlayTrueAnswer()
     {
         if (PlayerPrefs.GetInt("SoundEnabled", 1) == 1)
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // метод для звука неправильного ответа
+    // РјРµС‚РѕРґ РґР»СЏ Р·РІСѓРєР° РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
     public void PlayFalseAnswer()
     {
         if (PlayerPrefs.GetInt("SoundEnabled", 1) == 1)

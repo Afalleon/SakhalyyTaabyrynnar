@@ -1,55 +1,55 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelMenu : MonoBehaviour
 {
-    // ссылки на объекты в инспекторе
-    [SerializeField] private GameObject levelButtonPrefab; // префаб кнопки
-    [SerializeField] private Transform content; // объект Content из ScrollView
-    [SerializeField] private RiddleDataScriptable data; // ScriptableObject с загадками
-    [SerializeField] private Text sunText; // компонент Text для валюты
+    // СЃСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    [SerializeField] private GameObject levelButtonPrefab; // РїСЂРµС„Р°Р± РєРЅРѕРїРєРё
+    [SerializeField] private Transform content; // РѕР±СЉРµРєС‚ Content РёР· ScrollView
+    [SerializeField] private RiddleDataScriptable data; // ScriptableObject СЃ Р·Р°РіР°РґРєР°РјРё
+    [SerializeField] private Text sunText; // РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ РІР°Р»СЋС‚С‹
 
     private void Start()
     {
-        sunText.text = RiddleManager.sunCount.ToString(); // устанавливаем количество валюты
-        GenerateMenu(); // вызываем метод генерации меню
+        sunText.text = RiddleManager.sunCount.ToString(); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹
+        GenerateMenu(); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РіРµРЅРµСЂР°С†РёРё РјРµРЅСЋ
     }
 
-    // метод генерации меню
+    // РјРµС‚РѕРґ РіРµРЅРµСЂР°С†РёРё РјРµРЅСЋ
     private void GenerateMenu()
     {
-        // проходимся по всем уровням
+        // РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СѓСЂРѕРІРЅСЏРј
         for (int i = 0; i < data.riddles.Count; i++)
         {
-            GameObject obj = Instantiate(levelButtonPrefab, content); // создаем кнопку для каждого уровня
-            Button btn = obj.GetComponent<Button>(); // получаем компонент Button
+            GameObject obj = Instantiate(levelButtonPrefab, content); // СЃРѕР·РґР°РµРј РєРЅРѕРїРєСѓ РґР»СЏ РєР°Р¶РґРѕРіРѕ СѓСЂРѕРІРЅСЏ
+            Button btn = obj.GetComponent<Button>(); // РїРѕР»СѓС‡Р°РµРј РєРѕРјРїРѕРЅРµРЅС‚ Button
 
-            int levelIndex = i; // сохраняем индекс для замыкания
+            int levelIndex = i; // СЃРѕС…СЂР°РЅСЏРµРј РёРЅРґРµРєСЃ РґР»СЏ Р·Р°РјС‹РєР°РЅРёСЏ
 
-            obj.GetComponentInChildren<Text>().text = (i + 1).ToString(); // пишем номер уровня
+            obj.GetComponentInChildren<Text>().text = (i + 1).ToString(); // РїРёС€РµРј РЅРѕРјРµСЂ СѓСЂРѕРІРЅСЏ
 
-            // текущая и пройденные уровни
+            // С‚РµРєСѓС‰Р°СЏ Рё РїСЂРѕР№РґРµРЅРЅС‹Рµ СѓСЂРѕРІРЅРё
             if (i == 0 || data.riddles[i].levelCompleted || (i > 0 && data.riddles[i - 1].levelCompleted))
             {
-                btn.interactable = true; // делаем кнопку активной
-                btn.onClick.AddListener(() => LoadLevel(levelIndex)); // клик - метод загрузки уровня
-                btn.onClick.AddListener(() => AudioManager.instance.PlayClick()); // клик - звук клика
+                btn.interactable = true; // РґРµР»Р°РµРј РєРЅРѕРїРєСѓ Р°РєС‚РёРІРЅРѕР№
+                btn.onClick.AddListener(() => LoadLevel(levelIndex)); // РєР»РёРє - РјРµС‚РѕРґ Р·Р°РіСЂСѓР·РєРё СѓСЂРѕРІРЅСЏ
+                btn.onClick.AddListener(() => AudioManager.instance.PlayClick()); // РєР»РёРє - Р·РІСѓРє РєР»РёРєР°
             }
-            // непройденные уровни
+            // РЅРµРїСЂРѕР№РґРµРЅРЅС‹Рµ СѓСЂРѕРІРЅРё
             else
             {
-                btn.interactable = false; // делаем кнопку неактивной
+                btn.interactable = false; // РґРµР»Р°РµРј РєРЅРѕРїРєСѓ РЅРµР°РєС‚РёРІРЅРѕР№
             }
         }
     }
 
-    // метод загрузки уровня
+    // РјРµС‚РѕРґ Р·Р°РіСЂСѓР·РєРё СѓСЂРѕРІРЅСЏ
     private void LoadLevel(int index)
     {
-        Debug.Log("Загружаем уровень: " + (index + 1));
+        Debug.Log("Р—Р°РіСЂСѓР¶Р°РµРј СѓСЂРѕРІРµРЅСЊ: " + (index + 1));
 
-        RiddleManager.currentRiddleIndex = index; // устанавливаем текущую загадку
-        SceneManager.LoadScene(1); // открываем сцену GameScene
+        RiddleManager.currentRiddleIndex = index; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰СѓСЋ Р·Р°РіР°РґРєСѓ
+        SceneManager.LoadScene(1); // РѕС‚РєСЂС‹РІР°РµРј СЃС†РµРЅСѓ GameScene
     }
 }

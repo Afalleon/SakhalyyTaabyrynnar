@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -6,33 +6,33 @@ using UnityEngine.UI;
 
 public class RiddleManager : MonoBehaviour
 {
-    // статические переменные
-    public static RiddleManager instance; // экземпляр класса
-    public static int currentRiddleIndex; // индекс текущего уровня
-    public static int sunCount; // количество валюты
+    // СЃС‚Р°С‚РёС‡РµСЃРєРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
+    public static RiddleManager instance; // СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
+    public static int currentRiddleIndex; // РёРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ СѓСЂРѕРІРЅСЏ
+    public static int sunCount; // РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹
 
-    // ссылки на объекты в инспекторе
-    [SerializeField] private GameObject levelComplete; // панель завершенного уровня
-    [SerializeField] private GameObject gameComplete; // панель завершенной игры
-    [SerializeField] private RiddleDataScriptable data; // ScriptableObject с загадками
-    [SerializeField] private Text sunText; // компонент Text для валюты
-    [SerializeField] private Text levelID; // компонент Text для номера уровня
-    [SerializeField] private Text riddleText; // компонент Text для текста загадки
-    [SerializeField] private Image riddleImage; // компонент Image для изображения загадки
-    [SerializeField] private Text addSunText; // компонент Text для добавленной валюты
-    [SerializeField] private CellData[] wordCellList; // массив с ячейками ответа
-    [SerializeField] private CellData[] letterCellList; // массив ячеек с буквами
-    [SerializeField] private char[] yakutABC; // якутский алфавит
+    // СЃСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    [SerializeField] private GameObject levelComplete; // РїР°РЅРµР»СЊ Р·Р°РІРµСЂС€РµРЅРЅРѕРіРѕ СѓСЂРѕРІРЅСЏ
+    [SerializeField] private GameObject gameComplete; // РїР°РЅРµР»СЊ Р·Р°РІРµСЂС€РµРЅРЅРѕР№ РёРіСЂС‹
+    [SerializeField] private RiddleDataScriptable data; // ScriptableObject СЃ Р·Р°РіР°РґРєР°РјРё
+    [SerializeField] private Text sunText; // РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ РІР°Р»СЋС‚С‹
+    [SerializeField] private Text levelID; // РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ РЅРѕРјРµСЂР° СѓСЂРѕРІРЅСЏ
+    [SerializeField] private Text riddleText; // РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ С‚РµРєСЃС‚Р° Р·Р°РіР°РґРєРё
+    [SerializeField] private Image riddleImage; // РєРѕРјРїРѕРЅРµРЅС‚ Image РґР»СЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ Р·Р°РіР°РґРєРё
+    [SerializeField] private Text addSunText; // РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ РґРѕР±Р°РІР»РµРЅРЅРѕР№ РІР°Р»СЋС‚С‹
+    [SerializeField] private CellData[] wordCellList; // РјР°СЃСЃРёРІ СЃ СЏС‡РµР№РєР°РјРё РѕС‚РІРµС‚Р°
+    [SerializeField] private CellData[] letterCellList; // РјР°СЃСЃРёРІ СЏС‡РµРµРє СЃ Р±СѓРєРІР°РјРё
+    [SerializeField] private char[] yakutABC; // СЏРєСѓС‚СЃРєРёР№ Р°Р»С„Р°РІРёС‚
     
-    // приватные переменные
-    private GameStatus gameStatus; // статус игры
-    private char[] lettersArray = new char[16]; // массив с буквами для ввода ответа
-    private List<int> selectedLettersIndex; // список нажатых букв
-    private string answerText; // ответ загадки
-    private int currentAnswerIndex; // текущая пустая ячейка для ввода ответа
-    private bool correctAnswer; // верный ответ
+    // РїСЂРёРІР°С‚РЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
+    private GameStatus gameStatus; // СЃС‚Р°С‚СѓСЃ РёРіСЂС‹
+    private char[] lettersArray = new char[16]; // РјР°СЃСЃРёРІ СЃ Р±СѓРєРІР°РјРё РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
+    private List<int> selectedLettersIndex; // СЃРїРёСЃРѕРє РЅР°Р¶Р°С‚С‹С… Р±СѓРєРІ
+    private string answerText; // РѕС‚РІРµС‚ Р·Р°РіР°РґРєРё
+    private int currentAnswerIndex; // С‚РµРєСѓС‰Р°СЏ РїСѓСЃС‚Р°СЏ СЏС‡РµР№РєР° РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
+    private bool correctAnswer; // РІРµСЂРЅС‹Р№ РѕС‚РІРµС‚
     
-    // реализация паттерна Singleton
+    // СЂРµР°Р»РёР·Р°С†РёСЏ РїР°С‚С‚РµСЂРЅР° Singleton
     private void Awake()
     {
         if (instance == null)
@@ -43,143 +43,143 @@ public class RiddleManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // открытие страницы уровня
+    // РѕС‚РєСЂС‹С‚РёРµ СЃС‚СЂР°РЅРёС†С‹ СѓСЂРѕРІРЅСЏ
     private void Start()
     {
-        selectedLettersIndex = new List<int>(); // инициализируем список нажатых букв
+        selectedLettersIndex = new List<int>(); // РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЃРїРёСЃРѕРє РЅР°Р¶Р°С‚С‹С… Р±СѓРєРІ
 
-        // если индекс текущего уровня больше последнего
+        // РµСЃР»Рё РёРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ СѓСЂРѕРІРЅСЏ Р±РѕР»СЊС€Рµ РїРѕСЃР»РµРґРЅРµРіРѕ
         if (currentRiddleIndex == data.riddles.Count)
-            currentRiddleIndex = currentRiddleIndex--; // устанавливаем текущим последний уровень
+            currentRiddleIndex = currentRiddleIndex--; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰РёРј РїРѕСЃР»РµРґРЅРёР№ СѓСЂРѕРІРµРЅСЊ
 
-        SetRiddle(currentRiddleIndex); // вызываем метод установки загадки
+        SetRiddle(currentRiddleIndex); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё Р·Р°РіР°РґРєРё
     }
 
-    // метод Следующий уровень
+    // РјРµС‚РѕРґ РЎР»РµРґСѓСЋС‰РёР№ СѓСЂРѕРІРµРЅСЊ
     public void SetNextRiddle()
     {
-        levelComplete.SetActive(false); // закрываем панель завершенного уровня
+        levelComplete.SetActive(false); // Р·Р°РєСЂС‹РІР°РµРј РїР°РЅРµР»СЊ Р·Р°РІРµСЂС€РµРЅРЅРѕРіРѕ СѓСЂРѕРІРЅСЏ
 
-        // если пройденный уровень был последним
+        // РµСЃР»Рё РїСЂРѕР№РґРµРЅРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ Р±С‹Р» РїРѕСЃР»РµРґРЅРёРј
         if (currentRiddleIndex == data.riddles.Count)
         {
-            sunText.text = sunCount.ToString(); // устанавливаем количество валюты
-            currentRiddleIndex = currentRiddleIndex--; // устанавливаем текущим последний уровень
-            gameComplete.SetActive(true); // открываем панель завершенной игры
+            sunText.text = sunCount.ToString(); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹
+            currentRiddleIndex = currentRiddleIndex--; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰РёРј РїРѕСЃР»РµРґРЅРёР№ СѓСЂРѕРІРµРЅСЊ
+            gameComplete.SetActive(true); // РѕС‚РєСЂС‹РІР°РµРј РїР°РЅРµР»СЊ Р·Р°РІРµСЂС€РµРЅРЅРѕР№ РёРіСЂС‹
             return;
         }
 
-        // если нет, вызываем метод установки загадки
+        // РµСЃР»Рё РЅРµС‚, РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё Р·Р°РіР°РґРєРё
         SetRiddle(currentRiddleIndex);
     }
 
-    // метод установки загадки
+    // РјРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё Р·Р°РіР°РґРєРё
     public void SetRiddle(int index)
     {
-        gameStatus = GameStatus.Playing; // устанавливаем статус Играет
-        sunText.text = sunCount.ToString(); // обновляем количество валюты
+        gameStatus = GameStatus.Playing; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃС‚Р°С‚СѓСЃ РРіСЂР°РµС‚
+        sunText.text = sunCount.ToString(); // РѕР±РЅРѕРІР»СЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹
                 
-        // получаем данные новой загадки
-        levelID.text = (index + 1).ToString(); // номер уровня
-        riddleText.text = data.riddles[index].riddleText; // текст загадки
-        answerText = data.riddles[index].answer; // ответ загадки
+        // РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ РЅРѕРІРѕР№ Р·Р°РіР°РґРєРё
+        levelID.text = (index + 1).ToString(); // РЅРѕРјРµСЂ СѓСЂРѕРІРЅСЏ
+        riddleText.text = data.riddles[index].riddleText; // С‚РµРєСЃС‚ Р·Р°РіР°РґРєРё
+        answerText = data.riddles[index].answer; // РѕС‚РІРµС‚ Р·Р°РіР°РґРєРё
 
-        ResetRiddle(); // подготавливаем ячейки
+        ResetRiddle(); // РїРѕРґРіРѕС‚Р°РІР»РёРІР°РµРј СЏС‡РµР№РєРё
 
-        // добавляем буквы ответа в массив с буквами для ввода ответа
+        // РґРѕР±Р°РІР»СЏРµРј Р±СѓРєРІС‹ РѕС‚РІРµС‚Р° РІ РјР°СЃСЃРёРІ СЃ Р±СѓРєРІР°РјРё РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
         for (int i = 0; i < answerText.Length; i++)
         {
             lettersArray[i] = char.ToUpper(answerText[i]);
         }
 
-        // оставшуюся часть заполняем случайными буквами
+        // РѕСЃС‚Р°РІС€СѓСЋСЃСЏ С‡Р°СЃС‚СЊ Р·Р°РїРѕР»РЅСЏРµРј СЃР»СѓС‡Р°Р№РЅС‹РјРё Р±СѓРєРІР°РјРё
         for (int j = answerText.Length; j < lettersArray.Length; j++)
         {
             lettersArray[j] = yakutABC[UnityEngine.Random.Range(0, yakutABC.Length)];
         }
 
-        // перемешиваем буквы
+        // РїРµСЂРµРјРµС€РёРІР°РµРј Р±СѓРєРІС‹
         lettersArray = ShuffleList.ShuffleListItems<char>(lettersArray.ToList()).ToArray();
 
-        // устанавливаем буквы в ячейки
+        // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р±СѓРєРІС‹ РІ СЏС‡РµР№РєРё
         for (int k = 0;  k < letterCellList.Length; k++)
         {
             letterCellList[k].SetCell(lettersArray[k]);
         }
     }
 
-    // метод очистки загадки
+    // РјРµС‚РѕРґ РѕС‡РёСЃС‚РєРё Р·Р°РіР°РґРєРё
     public void ResetRiddle()
     {
-        // очищаем ячейки ответа
+        // РѕС‡РёС‰Р°РµРј СЏС‡РµР№РєРё РѕС‚РІРµС‚Р°
         for (int i = 0; i < wordCellList.Length; i++)
         {
             wordCellList[i].gameObject.SetActive(true);
             wordCellList[i].SetCell(' ');
         }
 
-        // оставляем только нужное количество ячеек ответа
+        // РѕСЃС‚Р°РІР»СЏРµРј С‚РѕР»СЊРєРѕ РЅСѓР¶РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЏС‡РµРµРє РѕС‚РІРµС‚Р°
         for (int i = answerText.Length; i < wordCellList.Length; i++)
         {
             wordCellList[i].gameObject.SetActive(false);
         }
 
-        // активируем все ячейки с буквами
+        // Р°РєС‚РёРІРёСЂСѓРµРј РІСЃРµ СЏС‡РµР№РєРё СЃ Р±СѓРєРІР°РјРё
         for (int i = 0; i < letterCellList.Length; i++)
         {
             letterCellList[i].gameObject.SetActive(true);
         }
 
-        selectedLettersIndex.Clear(); // очищаем список нажатых букв
-        currentAnswerIndex = 0; // устанавливаем текущую пустую ячейку для ввода ответа
-        HelpManager.deleteFalseLettersIsUsed = false; // подсказка Удалить лишние не использована
-        Array.Clear(lettersArray, 0, lettersArray.Length); // очищаем массив с буквами для ввода ответа
+        selectedLettersIndex.Clear(); // РѕС‡РёС‰Р°РµРј СЃРїРёСЃРѕРє РЅР°Р¶Р°С‚С‹С… Р±СѓРєРІ
+        currentAnswerIndex = 0; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰СѓСЋ РїСѓСЃС‚СѓСЋ СЏС‡РµР№РєСѓ РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
+        HelpManager.deleteFalseLettersIsUsed = false; // РїРѕРґСЃРєР°Р·РєР° РЈРґР°Р»РёС‚СЊ Р»РёС€РЅРёРµ РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅР°
+        Array.Clear(lettersArray, 0, lettersArray.Length); // РѕС‡РёС‰Р°РµРј РјР°СЃСЃРёРІ СЃ Р±СѓРєРІР°РјРё РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
     }
 
-    // метод нажатия ячейки с буквой
+    // РјРµС‚РѕРґ РЅР°Р¶Р°С‚РёСЏ СЏС‡РµР№РєРё СЃ Р±СѓРєРІРѕР№
     public void SelectedLetter(CellData value)
     {
-        // ничего не делаем, если статус игры Следующий или если все ячейки заполнены
+        // РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј, РµСЃР»Рё СЃС‚Р°С‚СѓСЃ РёРіСЂС‹ РЎР»РµРґСѓСЋС‰РёР№ РёР»Рё РµСЃР»Рё РІСЃРµ СЏС‡РµР№РєРё Р·Р°РїРѕР»РЅРµРЅС‹
         if (gameStatus == GameStatus.Next || wordCellList[currentAnswerIndex].cellValue != ' ')
             return;
 
-        // вставляем букву в ячейку ответа и убираем нажатую ячейку
+        // РІСЃС‚Р°РІР»СЏРµРј Р±СѓРєРІСѓ РІ СЏС‡РµР№РєСѓ РѕС‚РІРµС‚Р° Рё СѓР±РёСЂР°РµРј РЅР°Р¶Р°С‚СѓСЋ СЏС‡РµР№РєСѓ
         selectedLettersIndex.Add(value.transform.GetSiblingIndex());
         value.gameObject.SetActive(false);
         wordCellList[currentAnswerIndex].SetCell(value.cellValue);
 
-        // обновляем текущую ячейку для ввода ответа и проверяем ответ
+        // РѕР±РЅРѕРІР»СЏРµРј С‚РµРєСѓС‰СѓСЋ СЏС‡РµР№РєСѓ РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р° Рё РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         SetCurrentAnswerIndex();
         CheckAnswer();
     }
 
-    // метод задания текущей ячейки для ввода ответа
+    // РјРµС‚РѕРґ Р·Р°РґР°РЅРёСЏ С‚РµРєСѓС‰РµР№ СЏС‡РµР№РєРё РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
     public void SetCurrentAnswerIndex()
     {
-        // проходимся по всем ячейкам ответа
+        // РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СЏС‡РµР№РєР°Рј РѕС‚РІРµС‚Р°
         for (int i = 0; i < answerText.Length; i++)
         {
-            // если ячейка пустая
+            // РµСЃР»Рё СЏС‡РµР№РєР° РїСѓСЃС‚Р°СЏ
             if (wordCellList[i].cellValue == ' ')
             {
-                currentAnswerIndex = i; // присваиваем индекс
-                break; // выходим из цикла
+                currentAnswerIndex = i; // РїСЂРёСЃРІР°РёРІР°РµРј РёРЅРґРµРєСЃ
+                break; // РІС‹С…РѕРґРёРј РёР· С†РёРєР»Р°
             }
         }
     }
 
-    // метод проверки ответа
+    // РјРµС‚РѕРґ РїСЂРѕРІРµСЂРєРё РѕС‚РІРµС‚Р°
     public void CheckAnswer()
     {
-        // если все ячейки заполнены
+        // РµСЃР»Рё РІСЃРµ СЏС‡РµР№РєРё Р·Р°РїРѕР»РЅРµРЅС‹
         if (wordCellList[currentAnswerIndex].cellValue != ' ')
         {
             correctAnswer = true;
 
-            // проходимся по всем ячейкам ответа
+            // РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СЏС‡РµР№РєР°Рј РѕС‚РІРµС‚Р°
             for (int i = 0; i < answerText.Length; i++)
             {
-                // если буквы ячейки и ответа не соответствуют
+                // РµСЃР»Рё Р±СѓРєРІС‹ СЏС‡РµР№РєРё Рё РѕС‚РІРµС‚Р° РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‚
                 if (char.ToUpper(answerText[i]) != char.ToUpper(wordCellList[i].cellValue))
                 {
                     correctAnswer = false;
@@ -187,154 +187,154 @@ public class RiddleManager : MonoBehaviour
                 }
             }
 
-            // если ответ верный
+            // РµСЃР»Рё РѕС‚РІРµС‚ РІРµСЂРЅС‹Р№
             if (correctAnswer)
             {
-                AudioManager.instance.PlayTrueAnswer(); // проигрывание звука правильного ответа
-                Debug.Log("Правильный ответ!");
+                AudioManager.instance.PlayTrueAnswer(); // РїСЂРѕРёРіСЂС‹РІР°РЅРёРµ Р·РІСѓРєР° РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
+                Debug.Log("РџСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚!");
 
-                // если вибрация включена
+                // РµСЃР»Рё РІРёР±СЂР°С†РёСЏ РІРєР»СЋС‡РµРЅР°
                 if (PlayerPrefs.GetInt("VibrationEnabled", 1) == 1)
-                    Handheld.Vibrate(); // вибрация
+                    Handheld.Vibrate(); // РІРёР±СЂР°С†РёСЏ
 
-                gameStatus = GameStatus.Next; // статус игры Следующий
-                currentRiddleIndex++; // текущий уровень = следующий уровень
+                gameStatus = GameStatus.Next; // СЃС‚Р°С‚СѓСЃ РёРіСЂС‹ РЎР»РµРґСѓСЋС‰РёР№
+                currentRiddleIndex++; // С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ = СЃР»РµРґСѓСЋС‰РёР№ СѓСЂРѕРІРµРЅСЊ
 
-                CompleteRiddle(); // вызываем метод завершения уровня
+                CompleteRiddle(); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ Р·Р°РІРµСЂС€РµРЅРёСЏ СѓСЂРѕРІРЅСЏ
             }
-            // если ответ неверный
+            // РµСЃР»Рё РѕС‚РІРµС‚ РЅРµРІРµСЂРЅС‹Р№
             else
             {
-                AudioManager.instance.PlayFalseAnswer(); // проигрывание звука неправильного ответа
-                Debug.Log("Неравильный ответ!");
+                AudioManager.instance.PlayFalseAnswer(); // РїСЂРѕРёРіСЂС‹РІР°РЅРёРµ Р·РІСѓРєР° РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°
+                Debug.Log("РќРµСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚!");
             }
         }
     }
 
-    // метод завершения уровня
+    // РјРµС‚РѕРґ Р·Р°РІРµСЂС€РµРЅРёСЏ СѓСЂРѕРІРЅСЏ
     public void CompleteRiddle()
     {
-        levelComplete.SetActive(true); // активируем панель завершенного уровня
+        levelComplete.SetActive(true); // Р°РєС‚РёРІРёСЂСѓРµРј РїР°РЅРµР»СЊ Р·Р°РІРµСЂС€РµРЅРЅРѕРіРѕ СѓСЂРѕРІРЅСЏ
 
-        int currentCompleteRiddleIndex = currentRiddleIndex - 1; // берем индекс пройденного уровня
+        int currentCompleteRiddleIndex = currentRiddleIndex - 1; // Р±РµСЂРµРј РёРЅРґРµРєСЃ РїСЂРѕР№РґРµРЅРЅРѕРіРѕ СѓСЂРѕРІРЅСЏ
 
-        // устанавливаем лексическое значение и изображение загадки
+        // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р»РµРєСЃРёС‡РµСЃРєРѕРµ Р·РЅР°С‡РµРЅРёРµ Рё РёР·РѕР±СЂР°Р¶РµРЅРёРµ Р·Р°РіР°РґРєРё
         riddleText.text = data.riddles[currentCompleteRiddleIndex].textDescription;
         riddleImage.sprite = data.riddles[currentCompleteRiddleIndex].imageDescription;
 
-        // если уровень ранее не пройден
+        // РµСЃР»Рё СѓСЂРѕРІРµРЅСЊ СЂР°РЅРµРµ РЅРµ РїСЂРѕР№РґРµРЅ
         if (data.riddles[currentCompleteRiddleIndex].levelCompleted == false)
         {
-            // добавляем валюту (количество валюты = количество букв в слове)
+            // РґРѕР±Р°РІР»СЏРµРј РІР°Р»СЋС‚Сѓ (РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹ = РєРѕР»РёС‡РµСЃС‚РІРѕ Р±СѓРєРІ РІ СЃР»РѕРІРµ)
             int addSunCount = data.riddles[currentCompleteRiddleIndex].answer.Length;
             addSunText.text = $"+{addSunCount}";
             sunCount += addSunCount;
         }
 
-        data.riddles[currentCompleteRiddleIndex].levelCompleted = true; // отмечаем, что уровень пройден
+        data.riddles[currentCompleteRiddleIndex].levelCompleted = true; // РѕС‚РјРµС‡Р°РµРј, С‡С‚Рѕ СѓСЂРѕРІРµРЅСЊ РїСЂРѕР№РґРµРЅ
 
-        // сохраняем данные
+        // СЃРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ
         PlayerPrefs.SetInt("CurrentLevel", currentRiddleIndex);
         PlayerPrefs.SetInt("TotalSun", sunCount);
         PlayerPrefs.Save();
     }
 
-    // метод удаления последней введенной буквы
+    // РјРµС‚РѕРґ СѓРґР°Р»РµРЅРёСЏ РїРѕСЃР»РµРґРЅРµР№ РІРІРµРґРµРЅРЅРѕР№ Р±СѓРєРІС‹
     public void ResetLastCell()
     {
-        // если хоть какая-то буква нажата
+        // РµСЃР»Рё С…РѕС‚СЊ РєР°РєР°СЏ-С‚Рѕ Р±СѓРєРІР° РЅР°Р¶Р°С‚Р°
         if (selectedLettersIndex.Count > 0)
         {
-            // идем от конца списка введенных букв
+            // РёРґРµРј РѕС‚ РєРѕРЅС†Р° СЃРїРёСЃРєР° РІРІРµРґРµРЅРЅС‹С… Р±СѓРєРІ
             for (int i = selectedLettersIndex.Count - 1; i >= 0; i--)
             {
                 int index = selectedLettersIndex[i];
 
-                // если буква не помечена как правильная
+                // РµСЃР»Рё Р±СѓРєРІР° РЅРµ РїРѕРјРµС‡РµРЅР° РєР°Рє РїСЂР°РІРёР»СЊРЅР°СЏ
                 if (!letterCellList[index].cellTrueValue)
                 {
-                    letterCellList[index].gameObject.SetActive(true); // возвращаем ячейку с буквой
-                    selectedLettersIndex.Remove(index); // удаляем ячейку со списка нажатых букв
+                    letterCellList[index].gameObject.SetActive(true); // РІРѕР·РІСЂР°С‰Р°РµРј СЏС‡РµР№РєСѓ СЃ Р±СѓРєРІРѕР№
+                    selectedLettersIndex.Remove(index); // СѓРґР°Р»СЏРµРј СЏС‡РµР№РєСѓ СЃРѕ СЃРїРёСЃРєР° РЅР°Р¶Р°С‚С‹С… Р±СѓРєРІ
 
-                    // идем от конца ячеек ответа
+                    // РёРґРµРј РѕС‚ РєРѕРЅС†Р° СЏС‡РµРµРє РѕС‚РІРµС‚Р°
                     for (int j = wordCellList.Length - 1; j >= 0; j--)
                     {
-                        // если ячейка не пустая и не помечена как правильная
+                        // РµСЃР»Рё СЏС‡РµР№РєР° РЅРµ РїСѓСЃС‚Р°СЏ Рё РЅРµ РїРѕРјРµС‡РµРЅР° РєР°Рє РїСЂР°РІРёР»СЊРЅР°СЏ
                         if (wordCellList[j].cellValue != ' ' && !wordCellList[j].cellTrueValue)
                         {
-                            wordCellList[j].SetCell(' '); // очищаем ячейку
-                            break; // выходим
+                            wordCellList[j].SetCell(' '); // РѕС‡РёС‰Р°РµРј СЏС‡РµР№РєСѓ
+                            break; // РІС‹С…РѕРґРёРј
                         }                   
                     }
 
-                    SetCurrentAnswerIndex(); // обновляем текущую ячейку для ввода ответа
-                    break; // дальше не идем
+                    SetCurrentAnswerIndex(); // РѕР±РЅРѕРІР»СЏРµРј С‚РµРєСѓС‰СѓСЋ СЏС‡РµР№РєСѓ РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
+                    break; // РґР°Р»СЊС€Рµ РЅРµ РёРґРµРј
                 }
             }                           
         }
     }
 
-    // метод удаления всех введенных букв
+    // РјРµС‚РѕРґ СѓРґР°Р»РµРЅРёСЏ РІСЃРµС… РІРІРµРґРµРЅРЅС‹С… Р±СѓРєРІ
     public void ClearAnswer()
     {
-        // если есть нажатые буквы
+        // РµСЃР»Рё РµСЃС‚СЊ РЅР°Р¶Р°С‚С‹Рµ Р±СѓРєРІС‹
         if (selectedLettersIndex.Count > 0)
         {
-            // для каждой введенной буквы
+            // РґР»СЏ РєР°Р¶РґРѕР№ РІРІРµРґРµРЅРЅРѕР№ Р±СѓРєРІС‹
             foreach (int index in new List<int>(selectedLettersIndex))
             {
-                // если буква не помечена как правильная
+                // РµСЃР»Рё Р±СѓРєРІР° РЅРµ РїРѕРјРµС‡РµРЅР° РєР°Рє РїСЂР°РІРёР»СЊРЅР°СЏ
                 if (!letterCellList[index].cellTrueValue)
                 {
-                    // возвращаем ячейку с буквой
+                    // РІРѕР·РІСЂР°С‰Р°РµРј СЏС‡РµР№РєСѓ СЃ Р±СѓРєРІРѕР№
                     letterCellList[index].gameObject.SetActive(true);
                     selectedLettersIndex.Remove(index);
                 }
             }
 
-            // для каждой ячейки ответа
+            // РґР»СЏ РєР°Р¶РґРѕР№ СЏС‡РµР№РєРё РѕС‚РІРµС‚Р°
             for (int i = 0; i < wordCellList.Length; i++)
             {
-                // если ячейка не помечена как правильная
+                // РµСЃР»Рё СЏС‡РµР№РєР° РЅРµ РїРѕРјРµС‡РµРЅР° РєР°Рє РїСЂР°РІРёР»СЊРЅР°СЏ
                 if (!wordCellList[i].cellTrueValue)
-                    wordCellList[i].SetCell(' '); // очищаем ячейку
+                    wordCellList[i].SetCell(' '); // РѕС‡РёС‰Р°РµРј СЏС‡РµР№РєСѓ
             }
 
-            SetCurrentAnswerIndex(); // обновляем текущую ячейку для ввода ответа
+            SetCurrentAnswerIndex(); // РѕР±РЅРѕРІР»СЏРµРј С‚РµРєСѓС‰СѓСЋ СЏС‡РµР№РєСѓ РґР»СЏ РІРІРѕРґР° РѕС‚РІРµС‚Р°
         }
     }
     
-    // метод для получения статуса игры
+    // РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР° РёРіСЂС‹
     public GameStatus GetGameStatus()
     {
         return gameStatus;
     }
 
-    // метод для получения ответа
+    // РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕС‚РІРµС‚Р°
     public string GetAnswer()
     {
         return answerText;
     }
 
-    // метод для получения массива ячеек ответа
+    // РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РјР°СЃСЃРёРІР° СЏС‡РµРµРє РѕС‚РІРµС‚Р°
     public CellData[] GetWordCells()
     {
         return wordCellList;
     }
 
-    // метод для получения массива ячеек с буквами
+    // РјРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РјР°СЃСЃРёРІР° СЏС‡РµРµРє СЃ Р±СѓРєРІР°РјРё
     public CellData[] GetLetterCells()
     {
         return letterCellList;
     }
 
-    // метод Достаточно ли валюты
+    // РјРµС‚РѕРґ Р”РѕСЃС‚Р°С‚РѕС‡РЅРѕ Р»Рё РІР°Р»СЋС‚С‹
     public bool HasEnoughSun(int cost)
     {
         return sunCount >= cost;
     }
 
-    // метод траты валюты
+    // РјРµС‚РѕРґ С‚СЂР°С‚С‹ РІР°Р»СЋС‚С‹
     public void SpendSun(int cost)
     {
         sunCount -= cost;
@@ -344,19 +344,19 @@ public class RiddleManager : MonoBehaviour
     }
 }
 
-// класс с данными загадки
+// РєР»Р°СЃСЃ СЃ РґР°РЅРЅС‹РјРё Р·Р°РіР°РґРєРё
 [Serializable] public class RiddleData
 {
-    public string riddleText; // текст
-    public string answer; // ответ
-    public string textDescription; // лексическое значение
-    public Sprite imageDescription; // изображение
-    public bool levelCompleted = false; // уровень пройден (нет по умолчанию)
+    public string riddleText; // С‚РµРєСЃС‚
+    public string answer; // РѕС‚РІРµС‚
+    public string textDescription; // Р»РµРєСЃРёС‡РµСЃРєРѕРµ Р·РЅР°С‡РµРЅРёРµ
+    public Sprite imageDescription; // РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+    public bool levelCompleted = false; // СѓСЂРѕРІРµРЅСЊ РїСЂРѕР№РґРµРЅ (РЅРµС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)
 }
 
-// перечисление состояний игры
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёР№ РёРіСЂС‹
 public enum GameStatus
 {
-    Playing, // играет
-    Next // следующий (уровень)
+    Playing, // РёРіСЂР°РµС‚
+    Next // СЃР»РµРґСѓСЋС‰РёР№ (СѓСЂРѕРІРµРЅСЊ)
 }

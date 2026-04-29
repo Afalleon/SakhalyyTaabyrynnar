@@ -1,9 +1,9 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using System.Collections.Generic;
 
-// позволяет создавать этот файл через меню Create (в папке Project)
+// РїРѕР·РІРѕР»СЏРµС‚ СЃРѕР·РґР°РІР°С‚СЊ СЌС‚РѕС‚ С„Р°Р№Р» С‡РµСЂРµР· РјРµРЅСЋ Create (РІ РїР°РїРєРµ Project)
 [CreateAssetMenu(fileName = "RiddlesData", menuName = "RiddlesData", order = 1)]
 public class RiddleDataScriptable : ScriptableObject
 {
-    public List<RiddleData> riddles; // список всех загадок
+    public List<RiddleData> riddles; // СЃРїРёСЃРѕРє РІСЃРµС… Р·Р°РіР°РґРѕРє
 }

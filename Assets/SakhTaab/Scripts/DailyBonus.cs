@@ -1,17 +1,17 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using System;
 using UnityEngine.UI;
 
 public class DailyBonus : MonoBehaviour
 {
-    public static DailyBonus instance; // экземпляр класса
+    public static DailyBonus instance; // СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
 
-    // ссылки на объекты в инспекторе
-    [SerializeField] private GameObject bonusPanel; // панель бонуса
-    [SerializeField] private Text bonusText; // компонент Text
-    private int rewardAmount = 25; // количество прибавляемой награды
+    // СЃСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    [SerializeField] private GameObject bonusPanel; // РїР°РЅРµР»СЊ Р±РѕРЅСѓСЃР°
+    [SerializeField] private Text bonusText; // РєРѕРјРїРѕРЅРµРЅС‚ Text
+    private int rewardAmount = 25; // РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРёР±Р°РІР»СЏРµРјРѕР№ РЅР°РіСЂР°РґС‹
 
-    // реализация паттерна Singleton
+    // СЂРµР°Р»РёР·Р°С†РёСЏ РїР°С‚С‚РµСЂРЅР° Singleton
     private void Awake()
     {
         if (instance == null)
@@ -24,46 +24,46 @@ public class DailyBonus : MonoBehaviour
 
     private void Start()
     {
-        CheckBonus(); // вызываем метод проверки доступности бонуса
+        CheckBonus(); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РїСЂРѕРІРµСЂРєРё РґРѕСЃС‚СѓРїРЅРѕСЃС‚Рё Р±РѕРЅСѓСЃР°
     }
 
-    // метод проверки доступности бонуса
+    // РјРµС‚РѕРґ РїСЂРѕРІРµСЂРєРё РґРѕСЃС‚СѓРїРЅРѕСЃС‚Рё Р±РѕРЅСѓСЃР°
     private void CheckBonus()
     {
-        // получаем дату последнего захода (если её нет, берем очень старую дату)
+        // РїРѕР»СѓС‡Р°РµРј РґР°С‚Сѓ РїРѕСЃР»РµРґРЅРµРіРѕ Р·Р°С…РѕРґР° (РµСЃР»Рё РµС‘ РЅРµС‚, Р±РµСЂРµРј РѕС‡РµРЅСЊ СЃС‚Р°СЂСѓСЋ РґР°С‚Сѓ)
         string lastDateString = PlayerPrefs.GetString("LastBonusDate", DateTime.MinValue.ToString());
         DateTime lastDate = DateTime.Parse(lastDateString);
 
-        // сравниваем с текущей датой
+        // СЃСЂР°РІРЅРёРІР°РµРј СЃ С‚РµРєСѓС‰РµР№ РґР°С‚РѕР№
         if (DateTime.Now.Date > lastDate.Date)
         {
-            // бонус доступен
-            bonusPanel.SetActive(true); // активируем панель бонуса
-            bonusText.text = $"+{rewardAmount}"; // выводим в текст количество прибавляемой награды
-            Debug.Log("Бонус готов к получению!");
+            // Р±РѕРЅСѓСЃ РґРѕСЃС‚СѓРїРµРЅ
+            bonusPanel.SetActive(true); // Р°РєС‚РёРІРёСЂСѓРµРј РїР°РЅРµР»СЊ Р±РѕРЅСѓСЃР°
+            bonusText.text = $"+{rewardAmount}"; // РІС‹РІРѕРґРёРј РІ С‚РµРєСЃС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРёР±Р°РІР»СЏРµРјРѕР№ РЅР°РіСЂР°РґС‹
+            Debug.Log("Р‘РѕРЅСѓСЃ РіРѕС‚РѕРІ Рє РїРѕР»СѓС‡РµРЅРёСЋ!");
         }
         else
         {
-            // бонус уже был получен сегодня
+            // Р±РѕРЅСѓСЃ СѓР¶Рµ Р±С‹Р» РїРѕР»СѓС‡РµРЅ СЃРµРіРѕРґРЅСЏ
             bonusPanel.SetActive(false);
-            Debug.Log("Бонус уже забран!");
+            Debug.Log("Р‘РѕРЅСѓСЃ СѓР¶Рµ Р·Р°Р±СЂР°РЅ!");
         }
     }
 
-    // метод получения бонуса
+    // РјРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ Р±РѕРЅСѓСЃР°
     public static void ClaimBonus()
     {
-        // сохраняем текущую дату как дату последнего получения
+        // СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ РґР°С‚Сѓ РєР°Рє РґР°С‚Сѓ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕР»СѓС‡РµРЅРёСЏ
         PlayerPrefs.SetString("LastBonusDate", DateTime.Now.ToString());
         PlayerPrefs.Save();
 
-        // начисляем награду
+        // РЅР°С‡РёСЃР»СЏРµРј РЅР°РіСЂР°РґСѓ
         int currentSuns = PlayerPrefs.GetInt("TotalSun", 764);
         PlayerPrefs.SetInt("TotalSun", currentSuns + instance.rewardAmount);
         PlayerPrefs.Save();
-        Debug.Log($"Вы получили {instance.rewardAmount} солнц!");
+        Debug.Log($"Р’С‹ РїРѕР»СѓС‡РёР»Рё {instance.rewardAmount} СЃРѕР»РЅС†!");
 
-        // делаем панель неактивной
+        // РґРµР»Р°РµРј РїР°РЅРµР»СЊ РЅРµР°РєС‚РёРІРЅРѕР№
         instance.bonusPanel.SetActive(false);
     }
 }

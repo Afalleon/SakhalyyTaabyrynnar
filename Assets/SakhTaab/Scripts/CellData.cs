@@ -1,23 +1,23 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 
 public class CellData : MonoBehaviour
 {
-    [SerializeField] private Text cellText; // ссылка на компонент Text для значения ячейки
-    [HideInInspector] public char cellValue; // значение ячейки    
-    [HideInInspector] public bool cellTrueValue = false; // по умолчанию ячейка не помечена как правильная
+    [SerializeField] private Text cellText; // СЃСЃС‹Р»РєР° РЅР° РєРѕРјРїРѕРЅРµРЅС‚ Text РґР»СЏ Р·РЅР°С‡РµРЅРёСЏ СЏС‡РµР№РєРё
+    [HideInInspector] public char cellValue; // Р·РЅР°С‡РµРЅРёРµ СЏС‡РµР№РєРё    
+    [HideInInspector] public bool cellTrueValue = false; // РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЏС‡РµР№РєР° РЅРµ РїРѕРјРµС‡РµРЅР° РєР°Рє РїСЂР°РІРёР»СЊРЅР°СЏ
 
     private void Awake()
     {
-        Button buttonComponent = GetComponent<Button>(); // получаем компонент Button
+        Button buttonComponent = GetComponent<Button>(); // РїРѕР»СѓС‡Р°РµРј РєРѕРјРїРѕРЅРµРЅС‚ Button
         if (buttonComponent)
         {
-            buttonComponent.onClick.AddListener(() => CellSelected()); // клик - метод нажатия ячейки
-            buttonComponent.onClick.AddListener(() => AudioManager.instance.PlayClick()); // клик - звук клика
+            buttonComponent.onClick.AddListener(() => CellSelected()); // РєР»РёРє - РјРµС‚РѕРґ РЅР°Р¶Р°С‚РёСЏ СЏС‡РµР№РєРё
+            buttonComponent.onClick.AddListener(() => AudioManager.instance.PlayClick()); // РєР»РёРє - Р·РІСѓРє РєР»РёРєР°
         } 
     }
 
-    // метод установки значения ячейки
+    // РјРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё Р·РЅР°С‡РµРЅРёСЏ СЏС‡РµР№РєРё
     public void SetCell(char value)
     {
         cellText.text = value + "";
@@ -25,9 +25,9 @@ public class CellData : MonoBehaviour
         cellTrueValue = false;
     }
 
-    // метод нажатия ячейки
+    // РјРµС‚РѕРґ РЅР°Р¶Р°С‚РёСЏ СЏС‡РµР№РєРё
     private void CellSelected()
     {
-        RiddleManager.instance.SelectedLetter(this); // вызываем метод нажатия ячейки с буквой
+        RiddleManager.instance.SelectedLetter(this); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РЅР°Р¶Р°С‚РёСЏ СЏС‡РµР№РєРё СЃ Р±СѓРєРІРѕР№
     }
 }

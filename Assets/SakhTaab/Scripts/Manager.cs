@@ -1,92 +1,92 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    // ссылки на объекты в инспекторе
-    [SerializeField] private RiddleDataScriptable data; // ScriptableObject с загадками
-    [SerializeField] private GameObject bonusPanel; // панель бонуса
-    [SerializeField] private GameObject[] allPanels; // массив со всеми остальными панелями
-    private GameInput _input; // переменная для хранения экземпляра системы ввода
+    // СЃСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    [SerializeField] private RiddleDataScriptable data; // ScriptableObject СЃ Р·Р°РіР°РґРєР°РјРё
+    [SerializeField] private GameObject bonusPanel; // РїР°РЅРµР»СЊ Р±РѕРЅСѓСЃР°
+    [SerializeField] private GameObject[] allPanels; // РјР°СЃСЃРёРІ СЃРѕ РІСЃРµРјРё РѕСЃС‚Р°Р»СЊРЅС‹РјРё РїР°РЅРµР»СЏРјРё
+    private GameInput _input; // РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЌРєР·РµРјРїР»СЏСЂР° СЃРёСЃС‚РµРјС‹ РІРІРѕРґР°
 
     private void Awake()
     {
-        _input = new GameInput(); // создаем экземпляр сгенерированного класса ввода (New Input System)        
-        _input.UI.Back.performed += ctx => HandleBackPress(); // когда действие Back выполнено, вызывается метод HandleBackPress
+        _input = new GameInput(); // СЃРѕР·РґР°РµРј СЌРєР·РµРјРїР»СЏСЂ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РєР»Р°СЃСЃР° РІРІРѕРґР° (New Input System)        
+        _input.UI.Back.performed += ctx => HandleBackPress(); // РєРѕРіРґР° РґРµР№СЃС‚РІРёРµ Back РІС‹РїРѕР»РЅРµРЅРѕ, РІС‹Р·С‹РІР°РµС‚СЃСЏ РјРµС‚РѕРґ HandleBackPress
     }
 
-    private void OnEnable() => _input.Enable(); // включаем карту ввода, когда объект становится активным
-    private void OnDisable() => _input.Disable(); // выключаем карту ввода, когда объект деактивируется
+    private void OnEnable() => _input.Enable(); // РІРєР»СЋС‡Р°РµРј РєР°СЂС‚Сѓ РІРІРѕРґР°, РєРѕРіРґР° РѕР±СЉРµРєС‚ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р°РєС‚РёРІРЅС‹Рј
+    private void OnDisable() => _input.Disable(); // РІС‹РєР»СЋС‡Р°РµРј РєР°СЂС‚Сѓ РІРІРѕРґР°, РєРѕРіРґР° РѕР±СЉРµРєС‚ РґРµР°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ
 
     private void Start()
     {
-        Application.targetFrameRate = 120; // устанавливаем целевой FPS в 120
+        Application.targetFrameRate = 120; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С†РµР»РµРІРѕР№ FPS РІ 120
 
-        // для всех уровней до текущего
+        // РґР»СЏ РІСЃРµС… СѓСЂРѕРІРЅРµР№ РґРѕ С‚РµРєСѓС‰РµРіРѕ
         for (int i = 0; i < PlayerPrefs.GetInt("CurrentLevel", 0); i++)
         {
-            data.riddles[i].levelCompleted = true; // устанавливаем значение Пройдено в ScriptableObject
+            data.riddles[i].levelCompleted = true; // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ РџСЂРѕР№РґРµРЅРѕ РІ ScriptableObject
         }
 
-        RiddleManager.sunCount = PlayerPrefs.GetInt("TotalSun", 764); // загружаем количество валюты
+        RiddleManager.sunCount = PlayerPrefs.GetInt("TotalSun", 764); // Р·Р°РіСЂСѓР¶Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°Р»СЋС‚С‹
     }
 
-    // метод нажатия кнопки Назад телефона
+    // РјРµС‚РѕРґ РЅР°Р¶Р°С‚РёСЏ РєРЅРѕРїРєРё РќР°Р·Р°Рґ С‚РµР»РµС„РѕРЅР°
     private void HandleBackPress()
     {
-        // если открыта панель бонуса
+        // РµСЃР»Рё РѕС‚РєСЂС‹С‚Р° РїР°РЅРµР»СЊ Р±РѕРЅСѓСЃР°
         if (bonusPanel != null && bonusPanel.activeSelf)
         {
-            AudioManager.instance.PlayClick(); // проигрываем звук клика
-            DailyBonus.ClaimBonus(); // вызываем метод получения бонуса
+            AudioManager.instance.PlayClick(); // РїСЂРѕРёРіСЂС‹РІР°РµРј Р·РІСѓРє РєР»РёРєР°
+            DailyBonus.ClaimBonus(); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ Р±РѕРЅСѓСЃР°
             return;
         }
 
-        // если есть хоть какая-то панель
+        // РµСЃР»Рё РµСЃС‚СЊ С…РѕС‚СЊ РєР°РєР°СЏ-С‚Рѕ РїР°РЅРµР»СЊ
         if (allPanels != null)
         {
-            // проходимся по каждому панелю
+            // РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РєР°Р¶РґРѕРјСѓ РїР°РЅРµР»СЋ
             foreach (GameObject panel in allPanels)
             {
-                // если панель открыта
+                // РµСЃР»Рё РїР°РЅРµР»СЊ РѕС‚РєСЂС‹С‚Р°
                 if (panel != null && panel.activeSelf)
                 {
-                    AudioManager.instance.PlayClick(); // проигрываем звук клика
-                    panel.SetActive(false); // закрываем панель
+                    AudioManager.instance.PlayClick(); // РїСЂРѕРёРіСЂС‹РІР°РµРј Р·РІСѓРє РєР»РёРєР°
+                    panel.SetActive(false); // Р·Р°РєСЂС‹РІР°РµРј РїР°РЅРµР»СЊ
                     return;
                 }
             }
         }
 
-        // если панелей нет
-        AudioManager.instance.PlayClick(); // проигрываем звук клика
-        btnBack_Click(); // вызываем метод кнопки Назад
+        // РµСЃР»Рё РїР°РЅРµР»РµР№ РЅРµС‚
+        AudioManager.instance.PlayClick(); // РїСЂРѕРёРіСЂС‹РІР°РµРј Р·РІСѓРє РєР»РёРєР°
+        btnBack_Click(); // РІС‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РєРЅРѕРїРєРё РќР°Р·Р°Рґ
     }
 
-    // метод кнопки Начать
+    // РјРµС‚РѕРґ РєРЅРѕРїРєРё РќР°С‡Р°С‚СЊ
     public void btnStart_Click()
     {
-        // проходимся по всем уровням и устанавливаем текущий
+        // РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СѓСЂРѕРІРЅСЏРј Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРєСѓС‰РёР№
         for (int i = 0; i < data.riddles.Count; i++)
             if (i == 0 || data.riddles[i].levelCompleted || (i > 0 && data.riddles[i - 1].levelCompleted))
                 RiddleManager.currentRiddleIndex = i;
-        SceneManager.LoadScene(1); // открываем сцену GameScene
+        SceneManager.LoadScene(1); // РѕС‚РєСЂС‹РІР°РµРј СЃС†РµРЅСѓ GameScene
     }
 
-    // Метод кнопки Назад
+    // РњРµС‚РѕРґ РєРЅРѕРїРєРё РќР°Р·Р°Рґ
     public void btnBack_Click()
     {
-        // назад, если это не начальная сцена
+        // РЅР°Р·Р°Рґ, РµСЃР»Рё СЌС‚Рѕ РЅРµ РЅР°С‡Р°Р»СЊРЅР°СЏ СЃС†РµРЅР°
         if (SceneManager.GetActiveScene().buildIndex > 0)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        // выход, если это начальная
+        // РІС‹С…РѕРґ, РµСЃР»Рё СЌС‚Рѕ РЅР°С‡Р°Р»СЊРЅР°СЏ
         else
             Application.Quit();
     }
 
-    // Метод кнопки Уровни
+    // РњРµС‚РѕРґ РєРЅРѕРїРєРё РЈСЂРѕРІРЅРё
     public void btnLevels_Click()
     {
-        SceneManager.LoadScene(2); // открываем сцену LevelMenu
+        SceneManager.LoadScene(2); // РѕС‚РєСЂС‹РІР°РµРј СЃС†РµРЅСѓ LevelMenu
     }
 }
