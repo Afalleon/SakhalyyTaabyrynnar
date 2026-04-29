@@ -4,49 +4,52 @@ using UnityEngine.UI;
 
 public class LevelMenu : MonoBehaviour
 {
-    public GameObject levelButtonPrefab; // Префаб кнопки
-    public Transform content;            // Объект Content из ScrollView
-    public RiddleDataScriptable data;             // Ваш ScriptableObject с загадками
-    [SerializeField] private Text sunText;
+    // ссылки на объекты в инспекторе
+    [SerializeField] private GameObject levelButtonPrefab; // префаб кнопки
+    [SerializeField] private Transform content; // объект Content из ScrollView
+    [SerializeField] private RiddleDataScriptable data; // ScriptableObject с загадками
+    [SerializeField] private Text sunText; // компонент Text для валюты
 
-    void Start()
+    private void Start()
     {
-        sunText.text = RiddleManager.sunCount.ToString();
-        GenerateMenu();
+        sunText.text = RiddleManager.sunCount.ToString(); // устанавливаем количество валюты
+        GenerateMenu(); // вызываем метод генерации меню
     }
 
-    void GenerateMenu()
+    // метод генерации меню
+    private void GenerateMenu()
     {
+        // проходимся по всем уровням
         for (int i = 0; i < data.riddles.Count; i++)
         {
-            GameObject obj = Instantiate(levelButtonPrefab, content);
-            Button btn = obj.GetComponent<Button>();
-            
-            int levelIndex = i; // Сохраняем индекс для замыкания
+            GameObject obj = Instantiate(levelButtonPrefab, content); // создаем кнопку для каждого уровня
+            Button btn = obj.GetComponent<Button>(); // получаем компонент Button
 
-            // Настраиваем текст на кнопке (например, номер уровня)
-            obj.GetComponentInChildren<Text>().text = (i + 1).ToString();
+            int levelIndex = i; // сохраняем индекс для замыкания
 
+            obj.GetComponentInChildren<Text>().text = (i + 1).ToString(); // пишем номер уровня
+
+            // текущая и пройденные уровни
             if (i == 0 || data.riddles[i].levelCompleted || (i > 0 && data.riddles[i - 1].levelCompleted))
             {
-                // Вешаем событие нажатия
-                btn.interactable = true;
-                btn.onClick.AddListener(() => LoadLevel(levelIndex));
-                btn.onClick.AddListener(() => AudioManager.instance.PlayClick());                
+                btn.interactable = true; // делаем кнопку активной
+                btn.onClick.AddListener(() => LoadLevel(levelIndex)); // клик - метод загрузки уровня
+                btn.onClick.AddListener(() => AudioManager.instance.PlayClick()); // клик - звук клика
             }
+            // непройденные уровни
             else
             {
-                btn.interactable = false;
+                btn.interactable = false; // делаем кнопку неактивной
             }
         }
     }
 
-    void LoadLevel(int index)
+    // метод загрузки уровня
+    private void LoadLevel(int index)
     {
-        // Логика загрузки уровня
         Debug.Log("Загружаем уровень: " + (index + 1));
 
-        RiddleManager.currentRiddleIndex = index;
-        SceneManager.LoadScene(1);
+        RiddleManager.currentRiddleIndex = index; // устанавливаем текущую загадку
+        SceneManager.LoadScene(1); // открываем сцену GameScene
     }
 }

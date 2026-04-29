@@ -3530,8 +3530,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -206.5}
-  m_SizeDelta: {x: 0, y: -913}
+  m_AnchoredPosition: {x: 0, y: -190}
+  m_SizeDelta: {x: 0, y: -880}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &809694524
 MonoBehaviour:
@@ -4091,13 +4091,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4496c3213e80eba4bafae34381076472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameComplete: {fileID: 1141273381}
   levelComplete: {fileID: 170211870}
+  gameComplete: {fileID: 1141273381}
   data: {fileID: 11400000, guid: 29e5427724bd9b540a35b0db8df7229d, type: 2}
-  riddleText: {fileID: 2027290669}
   sunText: {fileID: 1264668790}
-  addSunText: {fileID: 360379174}
+  levelID: {fileID: 124610586}
+  riddleText: {fileID: 2027290669}
   riddleImage: {fileID: 299734600}
+  addSunText: {fileID: 360379174}
   wordCellList:
   - {fileID: 1039120332}
   - {fileID: 1655518305}
@@ -4125,7 +4126,6 @@ MonoBehaviour:
   - {fileID: 1682569508}
   - {fileID: 1865788041}
   yakutABC: 1004110412041304940414041504010416041704180419041a041b041c041d04a4041e04e8041f0420042104ba0422042304ae042404250426042704280429042a042b042c042d042e042f04
-  levelID: {fileID: 124610586}
 --- !u!1 &974012337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5625,9 +5625,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenshotArea: {fileID: 809694523}
-  openLetterCost: 5
-  deleteFalseCost: 10
-  openWordCost: 15
 --- !u!225 &1274817982
 CanvasGroup:
   m_ObjectHideFlags: 0

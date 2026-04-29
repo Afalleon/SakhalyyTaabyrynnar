@@ -3,21 +3,21 @@ using UnityEngine.UI;
 
 public class CellData : MonoBehaviour
 {
-    [SerializeField] private Text cellText;
-    [HideInInspector] public char cellValue;
-    private Button buttonComponent;
-    [HideInInspector] public bool cellTrueValue = false;
+    [SerializeField] private Text cellText; // ссылка на компонент Text дл€ значени€ €чейки
+    [HideInInspector] public char cellValue; // значение €чейки    
+    [HideInInspector] public bool cellTrueValue = false; // по умолчанию €чейка не помечена как правильна€
 
     private void Awake()
     {
-        buttonComponent = GetComponent<Button>();
+        Button buttonComponent = GetComponent<Button>(); // получаем компонент Button
         if (buttonComponent)
         {
-            buttonComponent.onClick.AddListener(() => CellSelected());
-            buttonComponent.onClick.AddListener(() => AudioManager.instance.PlayClick());
+            buttonComponent.onClick.AddListener(() => CellSelected()); // клик - метод нажати€ €чейки
+            buttonComponent.onClick.AddListener(() => AudioManager.instance.PlayClick()); // клик - звук клика
         } 
     }
 
+    // метод установки значени€ €чейки
     public void SetCell(char value)
     {
         cellText.text = value + "";
@@ -25,8 +25,9 @@ public class CellData : MonoBehaviour
         cellTrueValue = false;
     }
 
+    // метод нажати€ €чейки
     private void CellSelected()
     {
-        RiddleManager.instance.SelectedLetter(this);
+        RiddleManager.instance.SelectedLetter(this); // вызываем метод нажати€ €чейки с буквой
     }
 }

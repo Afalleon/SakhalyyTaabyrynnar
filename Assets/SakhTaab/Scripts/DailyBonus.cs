@@ -4,12 +4,14 @@ using UnityEngine.UI;
 
 public class DailyBonus : MonoBehaviour
 {
-    public static DailyBonus instance;
+    public static DailyBonus instance; // экземпляр класса
 
-    public GameObject bonusPanel;  // Ссылка на панель бонуса
-    public Text bonusText;
-    public int rewardAmount = 25;  // Сколько даем монет/солнц
+    // ссылки на объекты в инспекторе
+    [SerializeField] private GameObject bonusPanel; // панель бонуса
+    [SerializeField] private Text bonusText; // компонент Text
+    private int rewardAmount = 25; // количество прибавляемой награды
 
+    // реализация паттерна Singleton
     private void Awake()
     {
         if (instance == null)
@@ -20,46 +22,48 @@ public class DailyBonus : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void Start()
+    private void Start()
     {
-        CheckBonus();
+        CheckBonus(); // вызываем метод проверки доступности бонуса
     }
 
-    public void CheckBonus()
+    // метод проверки доступности бонуса
+    private void CheckBonus()
     {
-        // 1. Получаем дату последнего захода (если её нет, берем очень старую дату)
+        // получаем дату последнего захода (если её нет, берем очень старую дату)
         string lastDateString = PlayerPrefs.GetString("LastBonusDate", DateTime.MinValue.ToString());
         DateTime lastDate = DateTime.Parse(lastDateString);
 
-        // 2. Сравниваем с текущей датой
+        // сравниваем с текущей датой
         if (DateTime.Now.Date > lastDate.Date)
         {
-            // Бонус доступен!
-            bonusPanel.SetActive(true);
-            bonusText.text = $"+{rewardAmount}";
+            // бонус доступен
+            bonusPanel.SetActive(true); // активируем панель бонуса
+            bonusText.text = $"+{rewardAmount}"; // выводим в текст количество прибавляемой награды
             Debug.Log("Бонус готов к получению!");
         }
         else
         {
-            // Бонус уже был получен сегодня
+            // бонус уже был получен сегодня
             bonusPanel.SetActive(false);
             Debug.Log("Бонус уже забран!");
         }
     }
 
+    // метод получения бонуса
     public static void ClaimBonus()
     {
-        // 1. Сохраняем текущую дату как дату последнего получения
+        // сохраняем текущую дату как дату последнего получения
         PlayerPrefs.SetString("LastBonusDate", DateTime.Now.ToString());
         PlayerPrefs.Save();
 
-        // 2. Начисляем награду
+        // начисляем награду
         int currentSuns = PlayerPrefs.GetInt("TotalSun", 764);
         PlayerPrefs.SetInt("TotalSun", currentSuns + instance.rewardAmount);
         PlayerPrefs.Save();
         Debug.Log($"Вы получили {instance.rewardAmount} солнц!");
 
-        // 3. Делаем панель неактивной
+        // делаем панель неактивной
         instance.bonusPanel.SetActive(false);
     }
 }
